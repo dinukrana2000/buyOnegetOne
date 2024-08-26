@@ -1,6 +1,7 @@
 package com.buyOnegetOne.product_service.service.Impl;
 
 import com.buyOnegetOne.product_service.dto.ProductRequest;
+import com.buyOnegetOne.product_service.dto.ProductResponse;
 import com.buyOnegetOne.product_service.entity.Product;
 import com.buyOnegetOne.product_service.mapper.ProductMapper;
 import com.buyOnegetOne.product_service.repo.ProductRepository;
@@ -44,9 +45,14 @@ public class ProductServiceImpl implements ProductService {
                 ProductMapper.DtoToEntity(product,productRequest);
 
                 productRepository.save(product);
+
+                ProductResponse productResponse=ProductMapper.EntityToDto(product);
+                productResponse.setMessage(messageSource.getMessage(MessageConstant.PRODUCT_SAVE_SUCCESS
+                        ,null,null));
+
                 log.info("Product {} is save successfully", product.getName());
                 return ResponseEntity.status(HttpStatus.CREATED).
-                        body(messageSource.getMessage(MessageConstant.PRODUCT_SAVE_SUCCESS,null,null));
+                        body(productResponse);
             }
 
         }

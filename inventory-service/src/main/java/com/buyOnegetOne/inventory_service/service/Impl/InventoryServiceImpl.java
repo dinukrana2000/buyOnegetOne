@@ -17,22 +17,50 @@ public class InventoryServiceImpl implements InventoryService {
     private final InventoryRepository inventoryRepository;
 
     private final MessageSource messageSource;
+//    @Override
+//    @Transactional(readOnly = true)
+//    public ResponseEntity<Object> isInStock(String skuCode) {
+//       try {
+//
+////           if (skuCode == null || skuCode.trim().isEmpty()) {
+////               return ResponseEntity.status(HttpStatus.BAD_REQUEST).
+////                       body(messageSource.getMessage(MessageConstant.SKUCODE_NOT_FOUND, null, null));
+////           }
+//
+//           boolean isInStock = inventoryRepository.findBySkuCode(skuCode).isPresent();
+//
+//           return ResponseEntity.status(HttpStatus.OK).body(isInStock);
+//       }
+//       catch (Exception e) {
+//           throw new RuntimeException(e);
+//       }
+//    }
     @Override
     @Transactional(readOnly = true)
-    public ResponseEntity<Object> isInStock(String skuCode) {
-       try {
+    public ResponseEntity<Object> isInStock(String skuCode, Integer quantity) {
+        try {
 
 //           if (skuCode == null || skuCode.trim().isEmpty()) {
 //               return ResponseEntity.status(HttpStatus.BAD_REQUEST).
 //                       body(messageSource.getMessage(MessageConstant.SKUCODE_NOT_FOUND, null, null));
 //           }
 
-           boolean isInStock = inventoryRepository.findBySkuCode(skuCode).isPresent();
+            if (skuCode == null || skuCode.trim().isEmpty()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(messageSource.getMessage(MessageConstant.SKUCODE_NOT_FOUND, null, null));
+            }
 
-           return ResponseEntity.status(HttpStatus.OK).body(isInStock);
-       }
-       catch (Exception e) {
-           throw new RuntimeException(e);
-       }
+            if (quantity == null || quantity <= 0) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(messageSource.getMessage(MessageConstant.QUANTITY_NOT_FOUND, null, null));
+            }
+
+            boolean isInStock = inventoryRepository.existsBySkuCodeAndQuantityIsGreaterThanEqual(skuCode,quantity);
+
+            return ResponseEntity.status(HttpStatus.OK).body(isInStock);
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

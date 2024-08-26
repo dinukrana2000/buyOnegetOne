@@ -14,4 +14,5 @@ public class ProductResponse {
     private String name;
     private String description;
     private String price;
+    private String message;
 }

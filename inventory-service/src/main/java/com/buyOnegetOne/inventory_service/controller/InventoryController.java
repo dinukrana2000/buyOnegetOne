@@ -13,9 +13,15 @@ import org.springframework.web.bind.annotation.*;
 public class InventoryController {
 
     private final InventoryService inventoryService;
-    @GetMapping(EndPoint.IS_INVENTORY)
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Object> isInStock(@PathVariable("sku-code") String skuCode) {
-        return inventoryService.isInStock(skuCode);
+//    @GetMapping(EndPoint.IS_INVENTORY)
+//    @ResponseStatus(HttpStatus.OK)
+//    public ResponseEntity<Object> isInStock(@PathVariable("sku-code") String skuCode) {
+//        return inventoryService.isInStock(skuCode);
+//    }
+
+      @GetMapping(EndPoint.IS_INVENTORY)
+      @ResponseStatus(HttpStatus.OK)
+      public ResponseEntity<Object> isInStock(@RequestParam("skuCode") String skuCode, @RequestParam("quantity") Integer quantity) {
+          return inventoryService.isInStock(skuCode,quantity);
     }
 }
