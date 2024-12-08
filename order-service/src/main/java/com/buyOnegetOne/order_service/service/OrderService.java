@@ -5,4 +5,6 @@ import org.springframework.http.ResponseEntity;
 
 public interface OrderService {
     ResponseEntity<Object> placeOrder(OrderRequest orderRequest);
+    ResponseEntity<Object> runBatchJob();
+    ResponseEntity<Object> getOrder();
 }

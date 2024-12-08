@@ -37,7 +37,7 @@ public class InventoryServiceImpl implements InventoryService {
 //    }
     @Override
     @Transactional(readOnly = true)
-    public ResponseEntity<Object> isInStock(String skuCode, Integer quantity) {
+    public ResponseEntity<Object>   isInStock(String skuCode, Integer quantity) {
         try {
 
 //           if (skuCode == null || skuCode.trim().isEmpty()) {

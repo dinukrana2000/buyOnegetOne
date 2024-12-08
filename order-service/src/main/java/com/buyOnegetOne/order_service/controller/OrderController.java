@@ -20,4 +20,16 @@ public class OrderController {
     public ResponseEntity<Object> placeOrder(@RequestBody OrderRequest orderRequest) {
         return orderService.placeOrder(orderRequest);
     }
+
+    @GetMapping(value = EndPoint.ORDER_BATCH)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Object> runBatchJob() {
+         return orderService.runBatchJob();
+    }
+
+    @GetMapping(value = EndPoint.ORDER_GET)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Object> getOrder() {
+         return orderService.getOrder();
+    }
 }
