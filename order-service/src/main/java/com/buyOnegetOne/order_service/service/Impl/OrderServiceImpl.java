@@ -51,6 +51,19 @@ public class OrderServiceImpl implements OrderService {
     public ResponseEntity<Object> placeOrder(OrderRequest orderRequest) {
         try{
 
+            // Check inventory for each item in the order
+            for (OrderLineItemsRequestDto lineItem : orderRequest.getOrderLineItemsDtoList()) {
+                ResponseEntity<Object> inventoryResponse = inventoryServiceClient.isInStock(lineItem.getSkuCode(), lineItem.getQuantity());
+
+                // If any item is not in stock, return an error
+                if (inventoryResponse.getStatusCode() != HttpStatus.OK || !(Boolean) inventoryResponse.getBody()) {
+                    log.info("Item with SKU code {} and quantity {} is not in stock", lineItem.getSkuCode(), lineItem.getQuantity());
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(messageSource.getMessage(MessageConstant.ITEM_NOT_IN_STOCK,
+                            new Object[]{lineItem.getSkuCode(),lineItem.getQuantity()}, null));
+                }
+            }
+
+
             Order order=new Order();
             order.setOrderNumber(UUID.randomUUID().toString());
             Optional<Order> existOrder=orderRepository.findByOrderNumber(order.getOrderNumber());

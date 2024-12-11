@@ -21,6 +21,7 @@ public class OrderController {
         return orderService.placeOrder(orderRequest);
     }
 
+    //for the batch processing concept understanding only not related to the project flow
     @GetMapping(value = EndPoint.ORDER_BATCH)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Object> runBatchJob() {

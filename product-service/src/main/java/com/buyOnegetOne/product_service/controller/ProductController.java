@@ -4,12 +4,14 @@ import com.buyOnegetOne.product_service.dto.ProductRequest;
 import com.buyOnegetOne.product_service.service.ProductService;
 import com.buyOnegetOne.product_service.util.EndPoint;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/product")
+@Slf4j
 @RequiredArgsConstructor
 public class ProductController {
 
@@ -18,12 +20,14 @@ public class ProductController {
     @PostMapping(value = EndPoint.PRODUCT_ADD)
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Object> createProduct(@RequestBody ProductRequest productRequest) {
+        log.info("ProductController: createProduct: productRequest: {}", productRequest);
         return productService.addProduct(productRequest);
     }
 
     @GetMapping(value = EndPoint.PRODUCT_GET_ALL)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Object> getAllProducts(){
+        log.info("ProductController: getAllProducts");
         return productService.getAllProducts();
     }
 }

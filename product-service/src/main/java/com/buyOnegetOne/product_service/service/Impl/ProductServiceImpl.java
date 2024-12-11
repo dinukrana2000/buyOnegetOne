@@ -69,6 +69,7 @@ public class ProductServiceImpl implements ProductService {
         try {
             List<Product> products = productRepository.findAll();
 
+            log.info("All products are fetched successfully");
             return ResponseEntity.status(HttpStatus.OK).
                     body(products.stream().map(ProductMapper::EntityToDto).toList());
         }
