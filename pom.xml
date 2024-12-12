@@ -13,5 +13,6 @@
     <module>product-service</module>
       <module>inventory-service</module>
 	 <module>gateway-service</module>
+	<module>registry-service</module>
   </modules>
 </project>
