@@ -1,15 +1,18 @@
 package com.buyOnegetOne.gateway_service.config;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.function.RequestPredicates;
-import org.springframework.web.servlet.function.RouterFunction;
-import org.springframework.web.servlet.function.ServerResponse;
+//import org.springframework.beans.factory.annotation.Value;
+//import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+//import org.springframework.context.annotation.Bean;
+//import org.springframework.context.annotation.Configuration;
+//import org.springframework.web.servlet.function.RequestPredicates;
+//import org.springframework.web.servlet.function.RouterFunction;
+//import org.springframework.web.servlet.function.ServerResponse;
+//
+//import static org.springframework.cloud.gateway.server.mvc.handler.GatewayRouterFunctions.route;
+//import static org.springframework.cloud.gateway.server.mvc.handler.HandlerFunctions.http;
 
-import static org.springframework.cloud.gateway.server.mvc.handler.GatewayRouterFunctions.route;
-import static org.springframework.cloud.gateway.server.mvc.handler.HandlerFunctions.http;
+
+//another way of routing without using property file
 
 //@Configuration(proxyBeanMethods = false)
 public class Routes {
