@@ -11,6 +11,16 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 @EnableWebFluxSecurity
 public class SecurityConfig {
 
+    private final String[] AUTH_WHITELIST = {
+            "/v3/api-docs/**",
+            "/swagger-resources/**",
+            "/swagger-ui.html",
+            "/swagger-ui/**",
+            "/api-docs/**",
+            "/aggregate/**",
+            "/webjars/**",
+    };
+
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
 
@@ -18,6 +28,8 @@ public class SecurityConfig {
                     .disable()
                     .authorizeExchange((exchanges) -> exchanges
                             .pathMatchers("/eureka/**")
+                            .permitAll()
+                            .pathMatchers(AUTH_WHITELIST)
                             .permitAll()
                             .anyExchange()
                             .authenticated())

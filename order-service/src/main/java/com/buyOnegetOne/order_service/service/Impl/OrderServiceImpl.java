@@ -55,6 +55,12 @@ public class OrderServiceImpl implements OrderService {
             for (OrderLineItemsRequestDto lineItem : orderRequest.getOrderLineItemsDtoList()) {
                 ResponseEntity<Object> inventoryResponse = inventoryServiceClient.isInStock(lineItem.getSkuCode(), lineItem.getQuantity());
 
+                // Handle fallback or inventory check failure
+                if (inventoryResponse.getStatusCode() == HttpStatus.SERVICE_UNAVAILABLE) {
+                    log.error("Fallback triggered for SKU code: {} and quantity: {}. Inventory service is down.", lineItem.getSkuCode(), lineItem.getQuantity());
+                    return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(messageSource.getMessage(MessageConstant.SERVICE_UNAVAILABLE,
+                            null, null));
+                }
                 // If any item is not in stock, return an error
                 if (inventoryResponse.getStatusCode() != HttpStatus.OK || !(Boolean) inventoryResponse.getBody()) {
                     log.info("Item with SKU code {} and quantity {} is not in stock", lineItem.getSkuCode(), lineItem.getQuantity());

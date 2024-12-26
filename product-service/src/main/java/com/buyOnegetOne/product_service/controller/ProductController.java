@@ -26,7 +26,7 @@ public class ProductController {
 
     @GetMapping(value = EndPoint.PRODUCT_GET_ALL)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Object> getAllProducts(){
+    public ResponseEntity<Object> getAllProducts() {
         log.info("ProductController: getAllProducts");
         return productService.getAllProducts();
     }
