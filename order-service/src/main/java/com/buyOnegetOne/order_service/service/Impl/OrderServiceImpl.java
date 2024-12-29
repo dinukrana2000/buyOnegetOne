@@ -23,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -64,8 +65,10 @@ public class OrderServiceImpl implements OrderService {
                 // If any item is not in stock, return an error
                 if (inventoryResponse.getStatusCode() != HttpStatus.OK || !(Boolean) inventoryResponse.getBody()) {
                     log.info("Item with SKU code {} and quantity {} is not in stock", lineItem.getSkuCode(), lineItem.getQuantity());
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(messageSource.getMessage(MessageConstant.ITEM_NOT_IN_STOCK,
-                            new Object[]{lineItem.getSkuCode(),lineItem.getQuantity()}, null));
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                            .body(Collections.singletonMap("message",
+                                    messageSource.getMessage(MessageConstant.ITEM_NOT_IN_STOCK, new Object[]{lineItem.getSkuCode(), lineItem.getQuantity()}, null)));
+
                 }
             }
 
@@ -88,8 +91,10 @@ public class OrderServiceImpl implements OrderService {
 
                 log.info("Order with order number {} is save successfully",order.getOrderNumber());
 
-                return ResponseEntity.status(HttpStatus.CREATED).body(messageSource.getMessage(MessageConstant.ORDER_SAVE_SUCCESS,
-                        null,null));
+                return ResponseEntity.status(HttpStatus.CREATED)
+                        .body(Collections.singletonMap("message",
+                                messageSource.getMessage(MessageConstant.ORDER_SAVE_SUCCESS, new Object[]{order.getOrderNumber()}, null)));
+
             }
 
         }catch (Exception e){
