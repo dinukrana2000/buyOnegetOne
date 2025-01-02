@@ -15,5 +15,7 @@
 	 <module>gateway-service</module>
 	<module>registry-service</module>
 	<module>authentication-service</module>
+	<module>notification-service</module>
+	<module>shared-service</module>
   </modules>
 </project>

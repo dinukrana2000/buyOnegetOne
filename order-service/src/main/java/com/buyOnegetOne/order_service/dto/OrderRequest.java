@@ -11,4 +11,6 @@ import java.util.List;
 @NoArgsConstructor
 public class OrderRequest {
     private List<OrderLineItemsRequestDto> orderLineItemsDtoList;
+
+    private UserDetails userDetails;
 }
