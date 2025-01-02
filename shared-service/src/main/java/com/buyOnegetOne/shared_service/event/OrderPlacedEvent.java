@@ -1,2 +1,16 @@
-package com.buyOnegetOne.shared_service.event;public class OrderPlacedEvent {
+package com.buyOnegetOne.shared_service.event;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class OrderPlacedEvent {
+    private String orderNumber;
+    private String email;
+
+
 }
+

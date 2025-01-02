@@ -5,6 +5,7 @@ import com.buyOnegetOne.order_service.dto.OrderLineItemsRequestDto;
 import com.buyOnegetOne.order_service.dto.OrderRequest;
 import com.buyOnegetOne.order_service.entity.Order;
 import com.buyOnegetOne.order_service.entity.OrderLineItems;
+import com.buyOnegetOne.order_service.event.OrderPlacedEvent;
 import com.buyOnegetOne.order_service.mapper.OrderMapper;
 import com.buyOnegetOne.order_service.repo.OrderLineItemsRepository;
 import com.buyOnegetOne.order_service.repo.OrderRepository;
@@ -20,6 +21,7 @@ import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,6 +48,8 @@ public class OrderServiceImpl implements OrderService {
     private final InventoryServiceClient inventoryServiceClient;
 
     private final OrderLineItemsRepository orderLineItemsRepository;
+
+    private final KafkaTemplate<String, OrderPlacedEvent> kafkaTemplate;
 
     @Override
     @Transactional
@@ -90,6 +94,12 @@ public class OrderServiceImpl implements OrderService {
 
 
                 log.info("Order with order number {} is save successfully",order.getOrderNumber());
+
+                //send message to kafka topic
+                OrderPlacedEvent orderPlacedEvent=new OrderPlacedEvent(order.getOrderNumber(),orderRequest.getUserDetails().getEmail());
+                log.info("Start Order placed event {} sent to kafka topic",orderPlacedEvent);
+                kafkaTemplate.send("order-placed",orderPlacedEvent);
+                log.info("End Order placed event {} sent to kafka topic",orderPlacedEvent);
 
                 return ResponseEntity.status(HttpStatus.CREATED)
                         .body(Collections.singletonMap("message",
