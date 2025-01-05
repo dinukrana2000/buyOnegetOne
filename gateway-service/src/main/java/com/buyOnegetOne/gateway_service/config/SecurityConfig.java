@@ -20,6 +20,7 @@ public class SecurityConfig {
             "/api-docs/**",
             "/aggregate/**",
             "/webjars/**",
+            "/actuator/prometheus",
     };
 
     @Bean
